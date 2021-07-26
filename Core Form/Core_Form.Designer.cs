@@ -37,7 +37,6 @@
             this.seller_label = new System.Windows.Forms.Label();
             this.parameter_label = new System.Windows.Forms.Label();
             this.presolved_xDock_label = new System.Windows.Forms.Label();
-            this.month_label = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.input_files_parameters = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -50,7 +49,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.Outbut_loc = new System.Windows.Forms.TextBox();
-            this.Month_Selected = new System.Windows.Forms.ComboBox();
             this.Hub_Cov_Box = new System.Windows.Forms.TextBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -113,9 +111,9 @@
             this.demand_label.Location = new System.Drawing.Point(3, 24);
             this.demand_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.demand_label.Name = "demand_label";
-            this.demand_label.Size = new System.Drawing.Size(156, 20);
+            this.demand_label.Size = new System.Drawing.Size(203, 20);
             this.demand_label.TabIndex = 0;
-            this.demand_label.Text = "Talep Noktası Dosyası:";
+            this.demand_label.Text = "Talep Noktası/xDock Dosyası:";
             // 
             // pot_xDock_label
             // 
@@ -123,9 +121,9 @@
             this.pot_xDock_label.Location = new System.Drawing.Point(3, 82);
             this.pot_xDock_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.pot_xDock_label.Name = "pot_xDock_label";
-            this.pot_xDock_label.Size = new System.Drawing.Size(178, 20);
+            this.pot_xDock_label.Size = new System.Drawing.Size(219, 20);
             this.pot_xDock_label.TabIndex = 1;
-            this.pot_xDock_label.Text = "Potensiyel xDock Dosyası:";
+            this.pot_xDock_label.Text = "Potansiyel Hub Noktası Dosyası:";
             // 
             // seller_label
             // 
@@ -157,20 +155,10 @@
             this.presolved_xDock_label.TabIndex = 4;
             this.presolved_xDock_label.Text = "Kısmi Çalıştırma Dosyası:";
             // 
-            // month_label
-            // 
-            this.month_label.AutoSize = true;
-            this.month_label.Location = new System.Drawing.Point(18, 40);
-            this.month_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.month_label.Name = "month_label";
-            this.month_label.Size = new System.Drawing.Size(106, 20);
-            this.month_label.TabIndex = 9;
-            this.month_label.Text = "Çalışılacak Ay :";
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(18, 99);
+            this.label3.Location = new System.Drawing.Point(18, 69);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(269, 20);
             this.label3.TabIndex = 17;
@@ -207,14 +195,14 @@
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox2.Size = new System.Drawing.Size(541, 382);
+            this.groupBox2.Size = new System.Drawing.Size(559, 382);
             this.groupBox2.TabIndex = 28;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Girdi Dosyaları";
             // 
             // Presolved_box
             // 
-            this.Presolved_box.Location = new System.Drawing.Point(185, 264);
+            this.Presolved_box.Location = new System.Drawing.Point(234, 263);
             this.Presolved_box.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Presolved_box.Name = "Presolved_box";
             this.Presolved_box.Size = new System.Drawing.Size(298, 27);
@@ -223,7 +211,7 @@
             // 
             // Parameter_Box
             // 
-            this.Parameter_Box.Location = new System.Drawing.Point(185, 204);
+            this.Parameter_Box.Location = new System.Drawing.Point(234, 204);
             this.Parameter_Box.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Parameter_Box.Name = "Parameter_Box";
             this.Parameter_Box.Size = new System.Drawing.Size(298, 27);
@@ -232,7 +220,7 @@
             // 
             // Seller_Box
             // 
-            this.Seller_Box.Location = new System.Drawing.Point(185, 142);
+            this.Seller_Box.Location = new System.Drawing.Point(234, 142);
             this.Seller_Box.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Seller_Box.Name = "Seller_Box";
             this.Seller_Box.Size = new System.Drawing.Size(298, 27);
@@ -241,7 +229,7 @@
             // 
             // Pot_xDock_Box
             // 
-            this.Pot_xDock_Box.Location = new System.Drawing.Point(185, 79);
+            this.Pot_xDock_Box.Location = new System.Drawing.Point(234, 79);
             this.Pot_xDock_Box.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Pot_xDock_Box.Name = "Pot_xDock_Box";
             this.Pot_xDock_Box.Size = new System.Drawing.Size(298, 27);
@@ -250,7 +238,7 @@
             // 
             // Demand_box
             // 
-            this.Demand_box.Location = new System.Drawing.Point(185, 24);
+            this.Demand_box.Location = new System.Drawing.Point(234, 24);
             this.Demand_box.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Demand_box.Name = "Demand_box";
             this.Demand_box.Size = new System.Drawing.Size(298, 27);
@@ -259,7 +247,7 @@
             // 
             // Mahalle_xDock_Ataması
             // 
-            this.Mahalle_xDock_Ataması.Location = new System.Drawing.Point(185, 321);
+            this.Mahalle_xDock_Ataması.Location = new System.Drawing.Point(234, 321);
             this.Mahalle_xDock_Ataması.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Mahalle_xDock_Ataması.Name = "Mahalle_xDock_Ataması";
             this.Mahalle_xDock_Ataması.Size = new System.Drawing.Size(298, 27);
@@ -298,33 +286,9 @@
             this.Outbut_loc.TabIndex = 25;
             this.Outbut_loc.Click += new System.EventHandler(this.Outbut_loc_Click);
             // 
-            // Month_Selected
-            // 
-            this.Month_Selected.FormattingEnabled = true;
-            this.Month_Selected.Items.AddRange(new object[] {
-            "Ay",
-            "Ocak",
-            "Şubat",
-            "Mart",
-            "Nisan",
-            "Mayıs",
-            "Haziran",
-            "Temmuz",
-            "Ağustos",
-            "Eylül",
-            "Ekim",
-            "Kasım",
-            "Aralık"});
-            this.Month_Selected.Location = new System.Drawing.Point(303, 38);
-            this.Month_Selected.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Month_Selected.Name = "Month_Selected";
-            this.Month_Selected.Size = new System.Drawing.Size(106, 28);
-            this.Month_Selected.TabIndex = 25;
-            this.Month_Selected.Text = "Ay Seçiniz";
-            // 
             // Hub_Cov_Box
             // 
-            this.Hub_Cov_Box.Location = new System.Drawing.Point(303, 99);
+            this.Hub_Cov_Box.Location = new System.Drawing.Point(303, 69);
             this.Hub_Cov_Box.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Hub_Cov_Box.Name = "Hub_Cov_Box";
             this.Hub_Cov_Box.Size = new System.Drawing.Size(49, 27);
@@ -395,7 +359,7 @@
             // 
             // Min_cap_courier
             // 
-            this.Min_cap_courier.Location = new System.Drawing.Point(303, 199);
+            this.Min_cap_courier.Location = new System.Drawing.Point(303, 169);
             this.Min_cap_courier.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Min_cap_courier.Name = "Min_cap_courier";
             this.Min_cap_courier.Size = new System.Drawing.Size(89, 27);
@@ -405,7 +369,7 @@
             // 
             // _threshold
             // 
-            this._threshold.Location = new System.Drawing.Point(303, 149);
+            this._threshold.Location = new System.Drawing.Point(303, 119);
             this._threshold.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this._threshold.Name = "_threshold";
             this._threshold.Size = new System.Drawing.Size(89, 27);
@@ -415,7 +379,7 @@
             // 
             // Km_başı_paket
             // 
-            this.Km_başı_paket.Location = new System.Drawing.Point(303, 299);
+            this.Km_başı_paket.Location = new System.Drawing.Point(303, 269);
             this.Km_başı_paket.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Km_başı_paket.Name = "Km_başı_paket";
             this.Km_başı_paket.Size = new System.Drawing.Size(89, 27);
@@ -427,7 +391,6 @@
             // 
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.Max_cap_courier);
-            this.groupBox3.Controls.Add(this.Month_Selected);
             this.groupBox3.Controls.Add(this.Hub_Cov_Box);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.label5);
@@ -436,7 +399,6 @@
             this.groupBox3.Controls.Add(this._threshold);
             this.groupBox3.Controls.Add(this.Min_cap_courier);
             this.groupBox3.Controls.Add(this.label3);
-            this.groupBox3.Controls.Add(this.month_label);
             this.groupBox3.ForeColor = System.Drawing.Color.Black;
             this.groupBox3.Location = new System.Drawing.Point(615, 256);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -450,7 +412,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(18, 254);
+            this.label7.Location = new System.Drawing.Point(18, 224);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(156, 20);
             this.label7.TabIndex = 35;
@@ -458,7 +420,7 @@
             // 
             // Max_cap_courier
             // 
-            this.Max_cap_courier.Location = new System.Drawing.Point(303, 250);
+            this.Max_cap_courier.Location = new System.Drawing.Point(303, 220);
             this.Max_cap_courier.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Max_cap_courier.Name = "Max_cap_courier";
             this.Max_cap_courier.Size = new System.Drawing.Size(89, 27);
@@ -468,7 +430,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(18, 305);
+            this.label6.Location = new System.Drawing.Point(18, 275);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(108, 20);
             this.label6.TabIndex = 33;
@@ -477,7 +439,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(18, 149);
+            this.label5.Location = new System.Drawing.Point(18, 119);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(175, 20);
             this.label5.TabIndex = 32;
@@ -486,7 +448,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(18, 199);
+            this.label4.Location = new System.Drawing.Point(18, 169);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(153, 20);
             this.label4.TabIndex = 31;
@@ -573,7 +535,6 @@
         private System.Windows.Forms.Label seller_label;
         private System.Windows.Forms.Label parameter_label;
         private System.Windows.Forms.Label presolved_xDock_label;
-        private System.Windows.Forms.Label month_label;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox input_files_parameters;
         private System.Windows.Forms.TextBox Hub_Cov_Box;
@@ -588,7 +549,6 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolTip toolTip3;
         private System.Windows.Forms.ToolTip toolTip2;
-        private System.Windows.Forms.ComboBox Month_Selected;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox Mahalle_xDock_Ataması;
         internal System.Windows.Forms.GroupBox groupBox3;

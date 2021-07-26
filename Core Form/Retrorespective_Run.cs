@@ -204,8 +204,8 @@ namespace Core_Form
                     var distance_matrix = new Dictionary<string,List<Double>>();
 
 
-                    var runner = new Runner(demand_point, potential_xDocks, partial_xDocks, agency, prior_small_sellers, regular_small_sellers, prior_big_sellers, regular_big_sellers, parameter_list, partial_solution, discrete_solution, Output_Loc.Text, hub_demand_coverage, only_cities, xDock_neighborhood_assignments, courier_parameter_list,distance_matrix);
-                    (xDocks, hubs) = await Task.Run(() => runner.Run());
+                    //var runner = new Runner(demand_point, potential_xDocks, partial_xDocks, agency, prior_small_sellers, regular_small_sellers, prior_big_sellers, regular_big_sellers, parameter_list, partial_solution, discrete_solution, Output_Loc.Text, hub_demand_coverage, only_cities, xDock_neighborhood_assignments, courier_parameter_list,distance_matrix);
+                    //(xDocks, hubs) = await Task.Run(() => runner.Run());
                     //Console.ReadKey();
 
                 }else if (only_courier_assignments)
@@ -227,8 +227,8 @@ namespace Core_Form
                     var distance_matrix = new Dictionary<string, List<Double>>();
 
                     partial_xDocks = reader.Get_Partial_Solution_xDocks();
-                    var runner_partial = new Runner(demand_point, potential_xDocks, partial_xDocks, agency, prior_small_sellers, regular_small_sellers, prior_big_sellers, regular_big_sellers, parameter_list, partial_solution, discrete_solution, Output_Loc.Text, hub_demand_coverage, only_cities, xDock_neighborhood_assignments, courier_parameter_list,distance_matrix);
-                    (xDocks, hubs) = await Task.Run(() => runner_partial.Run());
+                    //var runner_partial = new Runner(demand_point, potential_xDocks, partial_xDocks, agency, prior_small_sellers, regular_small_sellers, prior_big_sellers, regular_big_sellers, parameter_list, partial_solution, discrete_solution, Output_Loc.Text, hub_demand_coverage, only_cities, xDock_neighborhood_assignments, courier_parameter_list,distance_matrix);
+                    //(xDocks, hubs) = await Task.Run(() => runner_partial.Run());
                     //Console.ReadKey();
                 }
             }
@@ -260,8 +260,8 @@ namespace Core_Form
                     var parameter_list = reader.Get_Parameter_List();
                     var distance_matrix = new Dictionary<string, List<Double>>();
 
-                    var runner = new Runner(demand_point, potential_xDocks, partial_xDocks, agency, prior_small_sellers, regular_small_sellers, prior_big_sellers, regular_big_sellers, parameter_list, partial_solution, discrete_solution, Output_Loc.Text, hub_demand_coverage, only_cities, xDock_neighborhood_assignments, courier_parameter_list,distance_matrix);
-                    (xDocks, hubs) = await Task.Run(() => runner.Run());
+                    //var runner = new Runner(demand_point, potential_xDocks, partial_xDocks, agency, prior_small_sellers, regular_small_sellers, prior_big_sellers, regular_big_sellers, parameter_list, partial_solution, discrete_solution, Output_Loc.Text, hub_demand_coverage, only_cities, xDock_neighborhood_assignments, courier_parameter_list,distance_matrix);
+                    //(xDocks, hubs) = await Task.Run(() => runner.Run());
                     //Console.ReadKey();
 
                 }
@@ -283,8 +283,8 @@ namespace Core_Form
                     var parameter_list = reader.Get_Parameter_List();
                     var distance_matrix = new Dictionary<string, List<Double>>();
                     partial_xDocks = reader.Get_Partial_Solution_xDocks();
-                    var runner_partial = new Runner(demand_point, potential_xDocks, partial_xDocks, agency, prior_small_sellers, regular_small_sellers, prior_big_sellers, regular_big_sellers, parameter_list, partial_solution, discrete_solution, Output_Loc.Text, hub_demand_coverage, only_cities, xDock_neighborhood_assignments, courier_parameter_list,distance_matrix);
-                    (xDocks, hubs) = await Task.Run(() => runner_partial.Run());
+                    //var runner_partial = new Runner(demand_point, potential_xDocks, partial_xDocks, agency, prior_small_sellers, regular_small_sellers, prior_big_sellers, regular_big_sellers, parameter_list, partial_solution, discrete_solution, Output_Loc.Text, hub_demand_coverage, only_cities, xDock_neighborhood_assignments, courier_parameter_list,distance_matrix);
+                    //(xDocks, hubs) = await Task.Run(() => runner_partial.Run());
                     //Console.ReadKey();
                 }
 

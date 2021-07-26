@@ -22,7 +22,7 @@ namespace FMLMDelivery
         /// <summary>
         /// Min number of XDock that can be assigned to a single Hub.
         /// </summary>
-        private Double min_hub_capacity = 10000;
+        private Double min_hub_capacity = 50000;
 
         /// <summary>
         /// Total amount of demand for each hub
@@ -164,7 +164,7 @@ namespace FMLMDelivery
         /// <summary>
         /// Time limit is given in seconds.
         /// </summary>
-        private readonly long _timeLimit = 7200;
+        private readonly long _timeLimit = 36000;
 
         /// <summary>
         /// Gap limit is given in percentage
@@ -269,7 +269,7 @@ namespace FMLMDelivery
         {
 
             _solver = new Cplex();
-            _solver.SetParam(Cplex.DoubleParam.TiLim, val: _timeLimit);
+            //_solver.SetParam(Cplex.DoubleParam.TiLim, val: _timeLimit);
             _solver.SetParam(Cplex.DoubleParam.EpGap, _gap);
             _xDocks = xDocks;
             _hubs = hubs;
@@ -575,18 +575,18 @@ namespace FMLMDelivery
             }
         }
 
-
+        //Will be revised
         private void Create_Distance_Threshold_Matrix()
         {
             //Create a[i,j] matrix
             for (int i = 0; i < _numOfXdocks; i++)
             {
-                var longtitude = _xDocks[i].Get_Longitude();
-                var threshold = _xDocks[i].Get_Distance_Threshold();
+                var longtitude = _xDocks[i].Get_Longitude();                
                 var a_i = new List<Double>();
+
                 for (int j = 0; j < _numOfHubs; j++)
                 {
-
+                    var threshold = _hubs[j].Get_Distance_Threshold();
                     if (d[i][j] <= threshold)
                     {
                         var a_ij = 1;
@@ -606,7 +606,6 @@ namespace FMLMDelivery
         {   //Create a_seller[i,j] matrix
             for (int i = 0; i < _numOfSeller; i++)
             {
-
                 var threshold = _sellers[i].Get_Distance_Threshold();
                 var a_k = new List<Double>();
                 for (int j = 0; j < _numOfHubs; j++)
@@ -962,8 +961,8 @@ namespace FMLMDelivery
 
         private void Create_Common_Volume_Dictionary()
         {
-            common_volume.Add("İSTANBUL ASYA", 35);
-            common_volume.Add("İSTANBUL AVRUPA", 35);
+            common_volume.Add("İSTANBUL ASYA", 4);
+            common_volume.Add("İSTANBUL AVRUPA", 4);
             common_volume.Add("İZMİR", 12);
             common_volume.Add("ANKARA", 12);
             common_volume.Add("BURSA", 8);
@@ -995,9 +994,11 @@ namespace FMLMDelivery
 
         private void CreateConstraints()
         {
+            //Valid_Inequality_Constraint();
             CoverageConstraints();
             Open_Hub_Constraint();
             Nonnegativity_Constraint();
+
             //Chute_Capacity_Constraint();
             if (_cost_incurred)
             {
@@ -1106,13 +1107,13 @@ namespace FMLMDelivery
             //    var constraint = _solver.LinearNumExpr();
             //    for (int i = 0; i < _numOfSeller; i++)
             //    {
-            //        constraint.AddTerm(s[i][j], a_seller[i][j]*_sellers[i].Get_Demand());
+            //        constraint.AddTerm(s[i][j], a_seller[i][j] * _sellers[i].Get_Demand());
             //    }
             //    for (int k = 0; k < _numOfXdocks; k++)
             //    {
-            //        constraint.AddTerm(x[k][j], a[k][j]* _xDocks[k].Get_FM_Demand());
+            //        constraint.AddTerm(x[k][j], a[k][j] * _xDocks[k].Get_FM_Demand());
             //    }
-            //    constraint.AddTerm(y[j], -(_hubs[j].Get_FM_Capacity()));
+            //    constraint.AddTerm(y[j], -(_hubs[j].Get_FM_Capacity())/2);
             //    _solver.AddLe(constraint, 0);
             //}
         }
@@ -1177,6 +1178,10 @@ namespace FMLMDelivery
                 {
                     _solver.AddEq(constraint, 1);
                 }
+                else if (_hubs[i].Get_Hub_Points()==1.5)
+                {
+                    _solver.AddEq(constraint, 0);
+                }
                 else
                 {
                     _solver.AddLe(constraint, 1);
@@ -1185,6 +1190,7 @@ namespace FMLMDelivery
         }
 
         //y[j]*alfa >= ∑x[i,j]*a[i,j]*demand[i]
+        //Might be revised
         private void Capacity_Constraint()
         {
             for (int j = 0; j < _numOfHubs; j++)
@@ -1198,18 +1204,32 @@ namespace FMLMDelivery
 
                 for (int k = 0; k < _numOfSeller; k++)
                 {
-                    var demand_included_2 = _sellers[k].Get_Demand()*a_seller[k][j];
-                    if (common_volume.ContainsKey(_hubs[j].Get_City()))
-                    {
-                        var percentage = common_volume[_hubs[j].Get_City()];
-                        demand_included_2 = demand_included_2*(100-percentage)/100;
-                    }
+                    var demand_included_2 = _sellers[k].Get_Demand() * a_seller[k][j];
                     constraint.AddTerm(s[k][j], demand_included_2);
+                }
+                if (common_volume.ContainsKey(_hubs[j].Get_City())& _min_hub_model)
+                {
+                    var percentage = common_volume[_hubs[j].Get_City()];
+                    //demand_included_2 = demand_included_2 * (100 - percentage) / 100;
+                    _hubs[j].Set_LM_Capacity(_hubs[j].Get_LM_Capacity() * (100 + percentage) / 100);
                 }
                 constraint.AddTerm(y[j], -_hubs[j].Get_LM_Capacity());
                 _solver.AddLe(constraint, 0);
             }
 
+            //for (int j = 0; j < _numOfHubs; j++)
+            //{
+            //    var constraint = _solver.LinearNumExpr();
+
+            //    for (int k = 0; k < _numOfSeller; k++)
+            //    {
+            //        var demand_included_2 = _sellers[k].Get_Demand() * a_seller[k][j];
+            //        constraint.AddTerm(s[k][j], demand_included_2);
+            //    }
+            //    constraint.AddTerm(y[j], -_hubs[j].Get_LM_Capacity());
+            //    _solver.AddLe(constraint, 0);
+            //}
+            
             //for (int j = 0; j < _numOfHubs; j++)
             //{
             //    var constraint = _solver.LinearNumExpr();
@@ -1313,7 +1333,19 @@ namespace FMLMDelivery
                 _solver.AddGe(constraint, 0);
             }
         }
-
+        private void Valid_Inequality_Constraint()
+        {
+            for (int i = 0; i < _numOfXdocks; i++)
+            {
+                var constraint = _solver.LinearNumExpr();
+                for (int j = 0; j < _numOfHubs; j++)
+                {
+                    constraint.AddTerm(x[i][j], a[i][j]);
+                    constraint.AddTerm(-1, y[j]);
+                    _solver.AddLe(constraint, 0);
+                }
+            }
+        }
         private void CoverageConstraints()
         {
 

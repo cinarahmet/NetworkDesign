@@ -39,7 +39,6 @@ namespace Core_Form
             Parameter_Box.Enabled = false;
             Presolved_box.Enabled = false;
             Outbut_loc.Enabled = false;
-            Month_Selected.Enabled = false;
             Hub_Cov_Box.Enabled = false;
             send_button.Enabled = false;
             Run_CitybyCity.Checked= false;
@@ -92,7 +91,6 @@ namespace Core_Form
                 Parameter_Box.Enabled = true;
                 Presolved_box.Enabled = false;
                 Outbut_loc.Enabled = true;
-                Month_Selected.Enabled = true;
                 Hub_Cov_Box.Enabled = true;
                 send_button.Enabled = true;
                 _threshold.Enabled = true;
@@ -118,7 +116,6 @@ namespace Core_Form
                 Parameter_Box.Enabled = true;
                 Presolved_box.Enabled = true;
                 Outbut_loc.Enabled = true;
-                Month_Selected.Enabled = true;
                 Hub_Cov_Box.Enabled = true;
                 send_button.Enabled = true;
                 Presolved_box.Enabled = true;
@@ -141,13 +138,12 @@ namespace Core_Form
             if (Run_CitybyCity.Checked)
             {
                 Demand_box.Enabled = true;
-                Pot_xDock_Box.Enabled = true;
+                Pot_xDock_Box.Enabled = false;
                 Partial_Run.Enabled = true;
                 Seller_Box.Enabled = false;
                 Parameter_Box.Enabled = true;
                 Presolved_box.Enabled = false;
                 Outbut_loc.Enabled = true;
-                Month_Selected.Enabled = true;
                 Hub_Cov_Box.Enabled = false;
                 send_button.Enabled = true;
                 _threshold.Enabled = true;
@@ -172,7 +168,6 @@ namespace Core_Form
                 Parameter_Box.Enabled = false;
                 Presolved_box.Enabled = false;
                 Outbut_loc.Enabled = true;
-                Month_Selected.Enabled = false;
                 Hub_Cov_Box.Enabled = false;
                 send_button.Enabled = true;
                 _threshold.Enabled = true;
@@ -309,7 +304,6 @@ namespace Core_Form
         /// <param name="e"></param>
         private async void send_button_Click(object sender, EventArgs e)
         {
-            var month = 1;
             demand_file = Demand_box.Text ;
             pot_xDock_file = Pot_xDock_Box.Text;
             seller_file = Seller_Box.Text ;
@@ -329,16 +323,13 @@ namespace Core_Form
             var courier_max_cap = Convert.ToDouble(Max_cap_courier.Text);
             var compensation = Convert.ToDouble(Km_başı_paket.Text);
             var courier_parameter_list = new List<Double> { courier_min_cap,courier_max_cap, desired_efficiency, compensation};
-            if (!Courier_Run.Checked)
-            {
-               month = month_dict[Month_Selected.SelectedItem.ToString()];
-            }
             if (Hub_Cov_Box.Text != "") hub_demand_coverage = Convert.ToDouble(Hub_Cov_Box.Text);
             directory = Outbut_loc.Text;
 
 
             var demand_point = new List<DemandPoint>();
             var potential_xDocks = new List<xDocks>();
+            var hub_point = new List<Hub>();
             var xDocks = new List<xDocks>();
             var agency = new List<xDocks>();
             var hubs = new List<Hub>();
@@ -352,20 +343,21 @@ namespace Core_Form
 
             //Creating String Array to store the inputs for creating a Json file
             String[] run_type = { full_run.ToString(), partial_solution.ToString(), only_cities.ToString(), only_courier_assignments.ToString() };
-            String[] courier_params = { courier_min_cap.ToString(), courier_max_cap.ToString(), desired_efficiency.ToString(), compensation.ToString()};
-            String[] month_parameter = { month.ToString() };
+            String[] courier_params = { courier_min_cap.ToString(), courier_max_cap.ToString(), desired_efficiency.ToString(), compensation.ToString()};            
             String[] hub_coverage = { hub_demand_coverage.ToString()};
-
+            
+            //Will be revised
             if (full_run)
             {   
-                var reader = new CSVReader(demand_file, pot_xDock_file, seller_file, parameter_file, "", month);
+                var reader = new CSVReader(demand_file, pot_xDock_file, seller_file, parameter_file, "");
 
                 reader.Read();
                 var error_list = reader.Get_Input_Failure_List();
                 if (error_list.Count == 1)
                 {
-                    demand_point = reader.Get_County();
+                    demand_point = reader.Get_Demand_Points();
                     potential_xDocks = reader.Get_XDocks();
+                    hub_point = reader.Get_Hub_Points();
                     agency = reader.Get_Agency();
                     var prior_small_sellers = reader.Get_Prior_Small_Sellers();
                     var regular_small_sellers = reader.Get_Regular_Small_Sellers();
@@ -375,7 +367,7 @@ namespace Core_Form
                     var distance_matrix = reader.Get_Distance_Matrix();
 
 
-                    var runner = new Runner(demand_point, potential_xDocks, partial_xDocks, agency, prior_small_sellers, regular_small_sellers, prior_big_sellers, regular_big_sellers, parameter_list, partial_solution, discrete_solution, directory, hub_demand_coverage, only_cities, xDock_neighborhood_assignments, courier_parameter_list,distance_matrix);
+                    var runner = new Runner(demand_point, potential_xDocks,hub_point, partial_xDocks, agency, prior_small_sellers, regular_small_sellers, prior_big_sellers, regular_big_sellers, parameter_list, partial_solution, discrete_solution, directory, hub_demand_coverage, only_cities, xDock_neighborhood_assignments, courier_parameter_list,distance_matrix);
                     (xDocks, hubs) = await Task.Run(() => runner.Run());
                     //Console.ReadKey();
                 }
@@ -386,12 +378,12 @@ namespace Core_Form
                     //Report error and create a log file
                 }
                 total_json = reader.Get_Input_Dictionary();
-                Create_Write_Json_File(total_json, run_type, courier_params, month_parameter, hub_coverage);
+                Create_Write_Json_File(total_json, run_type, courier_params, hub_coverage);
                 
             }
             else if (only_courier_assignments)
             {
-                var partial_reader = new CSVReader("", "", "", "", mahalle_xdock_file, month);
+                var partial_reader = new CSVReader("", "", "", "", mahalle_xdock_file);
                 partial_reader.Read_xDock_Neighborhood_Assignments();
                 var error_list = partial_reader.Get_Input_Failure_List();
                 if (error_list.Count == 1)
@@ -406,19 +398,20 @@ namespace Core_Form
                     //report error and create a log file
                 }
                 total_json = partial_reader.Get_Input_Dictionary();
-                Create_Write_Json_File(total_json, run_type, courier_params, month_parameter, hub_coverage);
+                Create_Write_Json_File(total_json, run_type, courier_params, hub_coverage);
 
             }
             else if (partial_solution)
             {
-                var reader = new CSVReader(demand_file, pot_xDock_file, seller_file, parameter_file, "", month);
+                var reader = new CSVReader(demand_file, pot_xDock_file, seller_file, parameter_file, "");
 
                 reader.Read();
                 var error_list = reader.Get_Input_Failure_List();
                 if (error_list.Count == 1)
                 {
-                    demand_point = reader.Get_County();
+                    demand_point = reader.Get_Demand_Points();
                     potential_xDocks = reader.Get_XDocks();
+                    hub_point = reader.Get_Hub_Points();
                     agency = reader.Get_Agency();
                     var prior_small_sellers = reader.Get_Prior_Small_Sellers();
                     var regular_small_sellers = reader.Get_Regular_Small_Sellers();
@@ -427,12 +420,12 @@ namespace Core_Form
                     var parameter_list = reader.Get_Parameter_List();
                     var distance_matrix = reader.Get_Distance_Matrix();
 
-                    var partial_reader = new CSVReader("", presolved_xDock_file, "", "", mahalle_xdock_file, month);
+                    var partial_reader = new CSVReader("", presolved_xDock_file, "", "", mahalle_xdock_file);
                     partial_reader.Read_Partial_Solution_Xdocks();
                     partial_xDocks = partial_reader.Get_Partial_Solution_Xdocks();
                     partial_reader.Read_xDock_Neighborhood_Assignments();
                     xDock_neighborhood_assignments = partial_reader.Get_xDock_neighborhood_Assignments();
-                    var runner_partial = new Runner(demand_point, potential_xDocks, partial_xDocks, agency, prior_small_sellers, regular_small_sellers, prior_big_sellers, regular_big_sellers, parameter_list, partial_solution, discrete_solution, directory, hub_demand_coverage, only_cities, xDock_neighborhood_assignments, courier_parameter_list,distance_matrix);
+                    var runner_partial = new Runner(demand_point, potential_xDocks, hub_point, partial_xDocks, agency, prior_small_sellers, regular_small_sellers, prior_big_sellers, regular_big_sellers, parameter_list, partial_solution, discrete_solution, directory, hub_demand_coverage, only_cities, xDock_neighborhood_assignments, courier_parameter_list,distance_matrix);
                     (xDocks, hubs) = await Task.Run(() => runner_partial.Run());
 
                     total_json = partial_reader.Get_Input_Dictionary();
@@ -447,7 +440,7 @@ namespace Core_Form
                 }
                 var new_total_json = reader.Get_Input_Dictionary();
                 total_json = total_json.Union(new_total_json).ToDictionary(a => a.Key, b => b.Value);
-                Create_Write_Json_File(total_json, run_type, courier_params, month_parameter, hub_coverage);
+                Create_Write_Json_File(total_json, run_type, courier_params, hub_coverage);
 
             }
             if (!Error)
@@ -469,11 +462,10 @@ namespace Core_Form
             
             
         }
-        private void Create_Write_Json_File(Dictionary<String,String[]> total_input, String[] run_type, String[] courier, String[] Month, String[] Hub)
+        private void Create_Write_Json_File(Dictionary<String,String[]> total_input, String[] run_type, String[] courier, String[] Hub)
         {
             total_input.Add("Run Type", run_type);
             total_input.Add("Courier Parameters", courier);
-            total_input.Add("Run Month", Month);
             total_input.Add("Hub Coverage", Hub);
 
             var resultjson = JsonConvert.SerializeObject(total_input);

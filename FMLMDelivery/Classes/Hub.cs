@@ -19,7 +19,7 @@ public class Hub
 
     private readonly Double _hub_points;
 
-    private readonly Double _lm_capacity;
+    private  Double _lm_capacity;
 
     private Double _fm_capacity;
 
@@ -99,6 +99,10 @@ public class Hub
         _fm_capacity = capacity;
     }
     
+    public void Set_LM_Capacity(double capacity)
+    {
+        _lm_capacity = capacity;
+    }
     public Double Get_Hub_Points()
     {
         return _hub_points;

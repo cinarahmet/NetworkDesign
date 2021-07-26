@@ -16,7 +16,7 @@ public class xDocks
 
     private readonly Double _latitude;
 
-    private readonly Double _distance_threshold;
+    //private readonly Double _distance_threshold;
 
     private readonly Double _min_xdock_cap;
 
@@ -32,7 +32,7 @@ public class xDocks
 
     
 
-    public xDocks(String city,String district,String id,String region, Double longitude, Double latitude, Double distance_threshold,Double min_xdock_cap,Double Hub_Points,Double demand,Boolean already_opened,Boolean type_value)
+    public xDocks(String city,String district,String id,String region, Double longitude, Double latitude,Double min_xdock_cap,Double Hub_Points,Double demand,Boolean already_opened,Boolean type_value)
     {
         _city = city;
         _district = district; 
@@ -40,7 +40,7 @@ public class xDocks
         _region = region;
         _longitude = longitude;
         _latitude = latitude;
-        _distance_threshold = distance_threshold;
+        //_distance_threshold = distance_threshold;
         _lm_demand = demand;
         _fm_demand = 0;
         _already_opened = already_opened;
@@ -59,10 +59,10 @@ public class xDocks
         return _type_value;
     }
 
-    public Double Get_Distance_Threshold()
-    {
-        return _distance_threshold;
-    }
+    //public Double Get_Distance_Threshold()
+    //{
+    //    return _distance_threshold;
+    //}
 
     public String Get_District()
     {
