@@ -204,11 +204,12 @@ namespace Core_Form
                     var distance_matrix = new Dictionary<string,List<Double>>();
 
 
-                    //var runner = new Runner(demand_point, potential_xDocks, partial_xDocks, agency, prior_small_sellers, regular_small_sellers, prior_big_sellers, regular_big_sellers, parameter_list, partial_solution, discrete_solution, Output_Loc.Text, hub_demand_coverage, only_cities, xDock_neighborhood_assignments, courier_parameter_list,distance_matrix);
+                    //var runner = new Runner(demand_point, potential_xDocks, partial_xDocks, agency, prior_small_sellers, regular_small_sellers, prior_big_sellers, regular_big_sellers, parameter_list, partial_solution, discrete_solution, Output_Loc.Text, hub_demand_coverage, only_cities, xDock_neighborhood_assignments, courier_parameter_list, distance_matrix);                    
                     //(xDocks, hubs) = await Task.Run(() => runner.Run());
                     //Console.ReadKey();
 
-                }else if (only_courier_assignments)
+                }
+                else if (only_courier_assignments)
                 {
                     var month_for_courier = reader.Get_Run_Month();
                     xDock_neighborhood_assignments = reader.Get_xDock_Neighborhood();

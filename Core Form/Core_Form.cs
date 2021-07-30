@@ -109,11 +109,11 @@ namespace Core_Form
         {
             if(Partial_Run.Checked)
             {
-                Demand_box.Enabled = true;
+                Demand_box.Enabled = false;
                 Pot_xDock_Box.Enabled = true;
                 Partial_Run.Enabled = true;
                 Seller_Box.Enabled = true;
-                Parameter_Box.Enabled = true;
+                Parameter_Box.Enabled = false;
                 Presolved_box.Enabled = true;
                 Outbut_loc.Enabled = true;
                 Hub_Cov_Box.Enabled = true;
@@ -348,10 +348,19 @@ namespace Core_Form
             
             //Will be revised
             if (full_run)
-            {   
-                var reader = new CSVReader(demand_file, pot_xDock_file, seller_file, parameter_file, "");
+            {
+                var reader = new CSVReader("", "", "", "", "");
+                if (only_cities)
+                {
+                    reader = new CSVReader(demand_file, "", seller_file, parameter_file, "");
+                    reader.Read();
+                }
+                else
+                {
+                    reader = new CSVReader(demand_file, pot_xDock_file, seller_file, parameter_file, "");
+                    reader.Read();
+                }
 
-                reader.Read();
                 var error_list = reader.Get_Input_Failure_List();
                 if (error_list.Count == 1)
                 {

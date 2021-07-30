@@ -230,226 +230,243 @@ public class CSVReader
 
     public void Read_Partial_Solution_Xdocks()
     {
-        using(var sr = File.OpenText(_xDocks_file))
+        if (_xDocks_file != "")
         {
-            String s = sr.ReadLine();
-            var index = 1;
-            while ((s = sr.ReadLine()) != null)
-            {   index+= 1;
-                try
+            using (var sr = File.OpenText(_xDocks_file))
+            {
+                String s = sr.ReadLine();
+                var index = 1;
+                while ((s = sr.ReadLine()) != null)
                 {
-                    var line = s.Split(',');
-                    var xDock_City = line[0];
-                    var xDock_District = line[1];
-                    var xDock_Id = line[2];
-                    var xDock_region = line[3];
-                    var type_value = false;
-                    var xDock_lat = Convert.ToDouble(line[4], System.Globalization.CultureInfo.InvariantCulture);
-                    var xDock_long = Convert.ToDouble(line[5], System.Globalization.CultureInfo.InvariantCulture);
-                    var Already_Opened = Convert.ToBoolean(line[6], System.Globalization.CultureInfo.InvariantCulture);
-                    //var xDock_dist_threshold = Convert.ToDouble(line[7], System.Globalization.CultureInfo.InvariantCulture);
-                    var xDock_min_cap = Convert.ToDouble(line[7], System.Globalization.CultureInfo.InvariantCulture);
-                    var hub_point= Convert.ToDouble(line[8], System.Globalization.CultureInfo.InvariantCulture);
-                    var xdock_demand = Convert.ToDouble(line[9], System.Globalization.CultureInfo.InvariantCulture);
-                    var xDock = new xDocks(xDock_City, xDock_District, xDock_Id, xDock_region, xDock_long, xDock_lat, xDock_min_cap,hub_point, xdock_demand, Already_Opened, type_value);
-                    _partial_xdocks.Add(xDock);
+                    index += 1;
+                    try
+                    {
+                        var line = s.Split(',');
+                        var xDock_City = line[0];
+                        var xDock_District = line[1];
+                        var xDock_Id = line[2];
+                        var xDock_region = line[3];
+                        var type_value = false;
+                        var xDock_lat = Convert.ToDouble(line[4], System.Globalization.CultureInfo.InvariantCulture);
+                        var xDock_long = Convert.ToDouble(line[5], System.Globalization.CultureInfo.InvariantCulture);
+                        var Already_Opened = Convert.ToBoolean(line[6], System.Globalization.CultureInfo.InvariantCulture);
+                        //var xDock_dist_threshold = Convert.ToDouble(line[7], System.Globalization.CultureInfo.InvariantCulture);
+                        var xDock_min_cap = Convert.ToDouble(line[7], System.Globalization.CultureInfo.InvariantCulture);
+                        var hub_point = 1;
+                        var xdock_demand = Convert.ToDouble(line[8], System.Globalization.CultureInfo.InvariantCulture);
+                        var xDock = new xDocks(xDock_City, xDock_District, xDock_Id, xDock_region, xDock_long, xDock_lat, xDock_min_cap, hub_point, xdock_demand, Already_Opened, type_value);
+                        _partial_xdocks.Add(xDock);
+                    }
+                    catch (Exception ex)
+                    {
+                        var file_name = new DirectoryInfo(_xDocks_file).Name;
+                        var line_index = index.ToString();
+                        var failed_line = s.Replace(",", "/");
+                        var failure = $"{file_name},{line_index},{failed_line}";
+                        failure_list.Add(failure);
+                    }
                 }
-                catch(Exception ex)
-                {
-                    var file_name = new DirectoryInfo(_xDocks_file).Name;
-                    var line_index = index.ToString();
-                    var failed_line = s.Replace(",", "/");
-                    var failure = $"{file_name},{line_index},{failed_line}";
-                    failure_list.Add(failure);
-                }
+                var lines = System.IO.File.ReadAllLines(_xDocks_file);
+                total_dictionary_of_Inputs.Add("Partial Solution xDocks", lines);
             }
-            var lines = System.IO.File.ReadAllLines(_xDocks_file);
-            total_dictionary_of_Inputs.Add("Partial Solution xDocks", lines);
-        }
+        }        
     }
 
     public void Read_xDock_Neighborhood_Assignments()
     {
-        using (var sr = File.OpenText(_xDock_neighborhood_assignments_file))
+        if (_xDock_neighborhood_assignments_file != "")
         {
-            String s = sr.ReadLine();
-            var index = 1;
-            while ((s = sr.ReadLine()) != null)
-            {   index+= 1;
-                try
+            using (var sr = File.OpenText(_xDock_neighborhood_assignments_file))
+            {
+                String s = sr.ReadLine();
+                var index = 1;
+                while ((s = sr.ReadLine()) != null)
                 {
-                    var line = s.Split(',');
-                    if(line[0]!= "Atanmayan Talep Noktası")
+                    index += 1;
+                    try
                     {
-                        var xdock_city = line[0];
-                        var xdock_district = line[1];
-                        var xdock_id = line[2];
-                        var xdock_lat = Convert.ToDouble(line[3], System.Globalization.CultureInfo.InvariantCulture);
-                        var xdock_long = Convert.ToDouble(line[4], System.Globalization.CultureInfo.InvariantCulture);
-                        var demand_point_city = line[5];
-                        var demand_point_district = line[6];
-                        var demand_point_id = line[7];
-                        var demand_point_lat = Convert.ToDouble(line[8], System.Globalization.CultureInfo.InvariantCulture);
-                        var demand_point_long = Convert.ToDouble(line[9], System.Globalization.CultureInfo.InvariantCulture);
-                        var distance_xdock_county = Convert.ToDouble(line[10], System.Globalization.CultureInfo.InvariantCulture);
-                        var demand = Convert.ToDouble(line[11], System.Globalization.CultureInfo.InvariantCulture);                        
-                        var dummy_xDock = new xDocks(xdock_city, xdock_district, xdock_id, "a", xdock_long, xdock_lat, 1250,1,4000, false, false);
-                        var neighborhood = new Mahalle(demand_point_id, demand_point_district, demand_point_long, demand_point_lat, demand);
-                        var neighborhood_list = new List<Mahalle>();
-                        var list_contains = _xDock_neighborhood_assignments.Keys.Where(x => x.Get_City() == xdock_city && x.Get_District() == xdock_district && x.Get_Id() == xdock_id).ToList();
-
-                        if (list_contains.Count > 0)
+                        var line = s.Split(',');
+                        if (line[0] != "Atanmayan Talep Noktası")
                         {
-                            _xDock_neighborhood_assignments[list_contains[0]].Add(neighborhood);
+                            var xdock_city = line[0];
+                            var xdock_district = line[1];
+                            var xdock_id = line[2];
+                            var xdock_lat = Convert.ToDouble(line[3], System.Globalization.CultureInfo.InvariantCulture);
+                            var xdock_long = Convert.ToDouble(line[4], System.Globalization.CultureInfo.InvariantCulture);
+                            var demand_point_city = line[5];
+                            var demand_point_district = line[6];
+                            var demand_point_id = line[7];
+                            var demand_point_lat = Convert.ToDouble(line[8], System.Globalization.CultureInfo.InvariantCulture);
+                            var demand_point_long = Convert.ToDouble(line[9], System.Globalization.CultureInfo.InvariantCulture);
+                            var distance_xdock_county = Convert.ToDouble(line[10], System.Globalization.CultureInfo.InvariantCulture);
+                            var demand = Convert.ToDouble(line[11], System.Globalization.CultureInfo.InvariantCulture);
+                            var dummy_xDock = new xDocks(xdock_city, xdock_district, xdock_id, "a", xdock_long, xdock_lat, 1250, 1, 4000, false, false);
+                            var neighborhood = new Mahalle(demand_point_id, demand_point_district, demand_point_long, demand_point_lat, demand);
+                            var neighborhood_list = new List<Mahalle>();
+                            var list_contains = _xDock_neighborhood_assignments.Keys.Where(x => x.Get_City() == xdock_city && x.Get_District() == xdock_district && x.Get_Id() == xdock_id).ToList();
 
+                            if (list_contains.Count > 0)
+                            {
+                                _xDock_neighborhood_assignments[list_contains[0]].Add(neighborhood);
+
+                            }
+                            else
+                            {
+                                neighborhood_list.Add(neighborhood);
+                                _xDock_neighborhood_assignments.Add(dummy_xDock, neighborhood_list);
+                            }
                         }
-                        else
-                        {
-                            neighborhood_list.Add(neighborhood);
-                            _xDock_neighborhood_assignments.Add(dummy_xDock, neighborhood_list);
-                        }
+
                     }
-                   
+                    catch (Exception ex)
+                    {
+                        var file_name = new DirectoryInfo(_xDock_neighborhood_assignments_file).Name;
+                        var line_index = index.ToString();
+                        var failed_line = s.Replace(",", "/");
+                        var failure = $"{file_name},{line_index},{failed_line}";
+                        failure_list.Add(failure);
+                    }
                 }
-                catch(Exception ex)
-                {
-                    var file_name = new DirectoryInfo(_xDock_neighborhood_assignments_file).Name;
-                    var line_index = index.ToString();
-                    var failed_line = s.Replace(",", "/");
-                    var failure = $"{file_name},{line_index},{failed_line}";
-                    failure_list.Add(failure);
-                }
+                var lines = System.IO.File.ReadAllLines(_xDock_neighborhood_assignments_file);
+                total_dictionary_of_Inputs.Add("Xdock Neighbourhood Assignments", lines);
             }
-            var lines = System.IO.File.ReadAllLines(_xDock_neighborhood_assignments_file);
-            total_dictionary_of_Inputs.Add("Xdock Neighbourhood Assignments", lines);
-        }
+        }        
     }
 
 
     private void Read_Parameters()
     {
-        using (var sr = File.OpenText(_parameter_file))
+        if (_parameter_file != "")
         {
-            String s = sr.ReadLine();
-            var index = 1;
-            while ((s = sr.ReadLine()) != null)
+            using (var sr = File.OpenText(_parameter_file))
             {
-                index+= 1;
-                try
+                String s = sr.ReadLine();
+                var index = 1;
+                while ((s = sr.ReadLine()) != null)
                 {
-                    var line = s.Split(',');
-                    var distinct_city = line[0];
-                    var size = line[1];
-                    var active = Convert.ToBoolean(Convert.ToDouble(line[2], System.Globalization.CultureInfo.InvariantCulture));
-                    var parameter = new Parameters(distinct_city, size, active);
-                    _parameters.Add(parameter);
-                }
-                catch(Exception ex)
-                {
-                    var file_name = new DirectoryInfo(_parameter_file).Name;
-                    var line_index = index.ToString();
-                    var failed_line = s.Replace(",", "/");
-                    var failure = $"{file_name},{line_index},{failed_line}";
-                    failure_list.Add(failure);
-                }
-                
-            }
-        }
-        var lines = System.IO.File.ReadAllLines(_parameter_file);
-        total_dictionary_of_Inputs.Add("Parameters", lines);
-    }
-    private void Read_Demand_Points_and_xDock()
-    {
-        using (var sr = File.OpenText(_demand_point_file))
-        {
-            String s = sr.ReadLine();
-            var index = 1;
-            while ((s = sr.ReadLine()) != null)
-            {
-                index += 1;
-                try
-                {
-                    var line = s.Split(',');
-                    var city= line[0];
-                    var district = line[1];
-                    var id = line[2];
-                    var region = line[3];
-                    var latitude = Convert.ToDouble(line[4], System.Globalization.CultureInfo.InvariantCulture);
-                    var longitude = Convert.ToDouble(line[5], System.Globalization.CultureInfo.InvariantCulture);
-                    var already_opened = Convert.ToDouble(line[6]);
-                    var already_opened_boolean = false;
-                    if (already_opened == 1) already_opened_boolean = true;
-                    var distance_threshold=Convert.ToDouble(line[7], System.Globalization.CultureInfo.InvariantCulture);
-                    var demand= Convert.ToDouble(line[8], System.Globalization.CultureInfo.InvariantCulture);
-                    var min_xdock_cap= Convert.ToDouble(line[9], System.Globalization.CultureInfo.InvariantCulture);
-                    var max_xdock_cap= Convert.ToDouble(line[10], System.Globalization.CultureInfo.InvariantCulture);
-                    if (demand > 5)
+                    index += 1;
+                    try
                     {
-                        var demand_point = new DemandPoint(city, district, id, region, longitude, latitude, distance_threshold, demand);
-                        _demand_point.Add(demand_point);
+                        var line = s.Split(',');
+                        var distinct_city = line[0];
+                        var size = line[1];
+                        var active = Convert.ToBoolean(Convert.ToDouble(line[2], System.Globalization.CultureInfo.InvariantCulture));
+                        var parameter = new Parameters(distinct_city, size, active);
+                        _parameters.Add(parameter);
                     }
-                    if (max_xdock_cap > scope_out_threshold)
+                    catch (Exception ex)
                     {
-                        var potential_xdock_point = new xDocks(city, district, id, region, longitude, latitude, min_xdock_cap,1.5, max_xdock_cap, already_opened_boolean,false);
-                        _xDocks.Add(potential_xdock_point);
+                        var file_name = new DirectoryInfo(_parameter_file).Name;
+                        var line_index = index.ToString();
+                        var failed_line = s.Replace(",", "/");
+                        var failure = $"{file_name},{line_index},{failed_line}";
+                        failure_list.Add(failure);
                     }
 
                 }
-                catch(Exception Ex)
+            }
+            var lines = System.IO.File.ReadAllLines(_parameter_file);
+            total_dictionary_of_Inputs.Add("Parameters", lines);
+        }        
+    }
+    private void Read_Demand_Points_and_xDock()
+    {
+        if (_demand_point_file != "")
+        {
+            using (var sr = File.OpenText(_demand_point_file))
+            {
+                String s = sr.ReadLine();
+                var index = 1;
+                while ((s = sr.ReadLine()) != null)
                 {
-                    var file_name = new DirectoryInfo(_demand_point_file).Name;
-                    var line_index = index.ToString();
-                    var failed_line = s.Replace(",", "/");
-                    var failure = $"{file_name},{line_index},{failed_line}";
-                    failure_list.Add(failure);
+                    index += 1;
+                    try
+                    {
+                        var line = s.Split(',');
+                        var city = line[0];
+                        var district = line[1];
+                        var id = line[2];
+                        var region = line[3];
+                        var latitude = Convert.ToDouble(line[4], System.Globalization.CultureInfo.InvariantCulture);
+                        var longitude = Convert.ToDouble(line[5], System.Globalization.CultureInfo.InvariantCulture);
+                        var already_opened = Convert.ToDouble(line[6]);
+                        var already_opened_boolean = false;
+                        if (already_opened == 1) already_opened_boolean = true;
+                        var distance_threshold = Convert.ToDouble(line[7], System.Globalization.CultureInfo.InvariantCulture);
+                        var demand = Convert.ToDouble(line[8], System.Globalization.CultureInfo.InvariantCulture);
+                        var min_xdock_cap = Convert.ToDouble(line[9], System.Globalization.CultureInfo.InvariantCulture);
+                        var max_xdock_cap = Convert.ToDouble(line[10], System.Globalization.CultureInfo.InvariantCulture);
+                        if (demand > 5)
+                        {
+                            var demand_point = new DemandPoint(city, district, id, region, longitude, latitude, distance_threshold, demand);
+                            _demand_point.Add(demand_point);
+                        }
+                        if (max_xdock_cap > scope_out_threshold)
+                        {
+                            var potential_xdock_point = new xDocks(city, district, id, region, longitude, latitude, min_xdock_cap, 1.5, max_xdock_cap, already_opened_boolean, false);
+                            _xDocks.Add(potential_xdock_point);
+                        }
+
+                    }
+                    catch (Exception Ex)
+                    {
+                        var file_name = new DirectoryInfo(_demand_point_file).Name;
+                        var line_index = index.ToString();
+                        var failed_line = s.Replace(",", "/");
+                        var failure = $"{file_name},{line_index},{failed_line}";
+                        failure_list.Add(failure);
+                    }
                 }
             }
-        }
-        var lines = System.IO.File.ReadAllLines(_demand_point_file);
-        total_dictionary_of_Inputs.Add("Demand/xDock File", lines);
+            var lines = System.IO.File.ReadAllLines(_demand_point_file);
+            total_dictionary_of_Inputs.Add("Demand/xDock File", lines);
+        }       
     }
 
     private void Read_Potential_Hub_Points()
     {
-        using (var sr = File.OpenText(_xDocks_file))
+        if (_xDocks_file != "")
         {
-            String s = sr.ReadLine();
-            var index = 1;
-            while ((s = sr.ReadLine()) != null)
+            using (var sr = File.OpenText(_xDocks_file))
             {
-                index += 1;
-                try
+                String s = sr.ReadLine();
+                var index = 1;
+                while ((s = sr.ReadLine()) != null)
                 {
-                    var line = s.Split(',');
-                    var city = line[0];
-                    var district = line[1];
-                    var id = line[2];
-                    var region = line[3];
-                    var latitude = Convert.ToDouble(line[4], System.Globalization.CultureInfo.InvariantCulture);
-                    var longitude = Convert.ToDouble(line[5], System.Globalization.CultureInfo.InvariantCulture);
-                    var already_opened = Convert.ToDouble(line[6], System.Globalization.CultureInfo.InvariantCulture);
-                    var already_opened_boolean = false;
-                    if (already_opened == 1) already_opened_boolean = true;
-                    var distance_threshold= Convert.ToDouble(line[7], System.Globalization.CultureInfo.InvariantCulture);
-                    var max_hub_cap= Convert.ToDouble(line[8], System.Globalization.CultureInfo.InvariantCulture);
-                    var eliminated_potential_point = 1.0;
-                    if (max_hub_cap == 0) eliminated_potential_point = 1.5;
+                    index += 1;
+                    try
+                    {
+                        var line = s.Split(',');
+                        var city = line[0];
+                        var district = line[1];
+                        var id = line[2];
+                        var region = line[3];
+                        var latitude = Convert.ToDouble(line[4], System.Globalization.CultureInfo.InvariantCulture);
+                        var longitude = Convert.ToDouble(line[5], System.Globalization.CultureInfo.InvariantCulture);
+                        var already_opened = Convert.ToDouble(line[6], System.Globalization.CultureInfo.InvariantCulture);
+                        var already_opened_boolean = false;
+                        if (already_opened == 1) already_opened_boolean = true;
+                        var distance_threshold = Convert.ToDouble(line[7], System.Globalization.CultureInfo.InvariantCulture);
+                        var max_hub_cap = Convert.ToDouble(line[8], System.Globalization.CultureInfo.InvariantCulture);
+                        var eliminated_potential_point = 1.0;
+                        if (max_hub_cap == 0) eliminated_potential_point = 1.5;
 
-                    var hub_info = new Hub(city, district, id, region, longitude, latitude, distance_threshold, eliminated_potential_point, max_hub_cap, 150, already_opened_boolean);
-                    _Hub.Add(hub_info);
-                }
-                catch (Exception Ex)
-                {
-                    var file_name = new DirectoryInfo(_demand_point_file).Name;
-                    var line_index = index.ToString();
-                    var failed_line = s.Replace(",", "/");
-                    var failure = $"{file_name},{line_index},{failed_line}";
-                    failure_list.Add(failure);
+                        var hub_info = new Hub(city, district, id, region, longitude, latitude, distance_threshold, eliminated_potential_point, max_hub_cap, 150, already_opened_boolean);
+                        _Hub.Add(hub_info);
+                    }
+                    catch (Exception Ex)
+                    {
+                        var file_name = new DirectoryInfo(_demand_point_file).Name;
+                        var line_index = index.ToString();
+                        var failed_line = s.Replace(",", "/");
+                        var failure = $"{file_name},{line_index},{failed_line}";
+                        failure_list.Add(failure);
+                    }
                 }
             }
-        }
-        var lines = System.IO.File.ReadAllLines(_xDocks_file);
-        total_dictionary_of_Inputs.Add("Hub Points File", lines);
+            var lines = System.IO.File.ReadAllLines(_xDocks_file);
+            total_dictionary_of_Inputs.Add("Hub Points File", lines);
+        }        
     }
     //private void Read_XDock()
     //{
@@ -532,12 +549,12 @@ public class CSVReader
                         var seller_id = line[1];
                         var seller_city = line[2];
                         var seller_district = line[3];
-                        var seller_priority = Convert.ToDouble(line[4], System.Globalization.CultureInfo.InvariantCulture);
-                        var seller_lat = Convert.ToDouble(line[5], System.Globalization.CultureInfo.InvariantCulture);
-                        var seller_long = Convert.ToDouble(line[6], System.Globalization.CultureInfo.InvariantCulture);
-                        var seller_demand = Convert.ToDouble(line[7], System.Globalization.CultureInfo.InvariantCulture);
-                        var seller_dist = Convert.ToDouble(line[8], System.Globalization.CultureInfo.InvariantCulture);
-                        var seller_size = line[9];
+                        var seller_priority = 1;
+                        var seller_lat = Convert.ToDouble(line[4], System.Globalization.CultureInfo.InvariantCulture);
+                        var seller_long = Convert.ToDouble(line[5], System.Globalization.CultureInfo.InvariantCulture);
+                        var seller_demand = Convert.ToDouble(line[6], System.Globalization.CultureInfo.InvariantCulture);
+                        var seller_dist = Convert.ToDouble(line[7], System.Globalization.CultureInfo.InvariantCulture);
+                        var seller_size = "Big";
                         if (seller_size == "Small")
                         {
                             var small_seller = new Seller(seller_name, seller_id, seller_city, seller_district, seller_priority, seller_long, seller_lat, seller_demand, seller_dist, seller_size);

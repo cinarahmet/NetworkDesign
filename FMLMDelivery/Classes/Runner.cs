@@ -226,103 +226,6 @@ namespace FMLMDelivery.Classes
             new_xDocks.AddRange(temp_xDocks);
             writer_xdocks.AddRange(temp_writer);
         }
-        //Will be removed
-        //private void Add_Main_Hub(int i,string _district,string _id, double _capacity, double _max_chute)
-        //{
-        //    var city = xDocks[i].Get_City();
-        //    var district = xDocks[i].Get_District();
-        //    var id = xDocks[i].Get_Id();
-        //    var region = xDocks[i].Get_Region();
-        //    var longitude = xDocks[i].Get_Longitude();
-        //    var latitude = xDocks[i].Get_Latitude();
-        //    //var dist_thres = xDocks[i].Get_Distance_Threshold();
-        //    var hub_point = xDocks[i].Get_Hub_Point();
-        //    var capacity = _capacity;
-        //    var chute_cap = _max_chute;
-        //    var already_opened = true;
-        //    var open_hub = new Hub(city, district, id, region, longitude, latitude,0,hub_point, capacity, chute_cap,already_opened);
-        //    potential_hub_locations.Add(open_hub);
-        //}
-        //Will be removed
-        //private void Add_Already_Open_Main_Hubs()
-        //{
-        //    for (int i = 0; i < xDocks.Count; i++)
-        //    {
-        //        if (xDocks[i].Get_District() == "TUZLA" && xDocks[i].Get_Id() == "KİRAZ")
-        //        {
-        //            Add_Main_Hub(i, "TUZLA", "KİRAZ", 800000, 175);
-        //        }
-        //        if (xDocks[i].Get_District() == "ESENYURT" && xDocks[i].Get_Id() == "Merkez")
-        //        {
-        //            Add_Main_Hub(i, "ESENYURT", "Merkez", 800000, 175);
-        //        }
-        //        //if (xDocks[i].Get_District() == "ESENLER" && xDocks[i].Get_Id() == "Merkez")
-        //        //{
-        //        //    Add_Main_Hub(i, "ESENLER", "Merkez", 2000000, 175);
-        //        //}
-        //        if (xDocks[i].Get_District() == "KAĞITHANE" && xDocks[i].Get_Id() == "Merkez")
-        //        {
-        //            //Add_Main_Hub(i, "KAĞITHANE", "Merkez", 2000000, 175);
-        //        }
-        //        else if (xDocks[i].Get_District() == "YÜREĞİR" && xDocks[i].Get_Id() == "İNCİRLİK CUMHURİYET")
-        //        {
-        //            Add_Main_Hub(i, "YÜREĞİR", "İNCİRLİK CUMHURİYET", 1000000, 100);
-        //        }
-        //        else if (xDocks[i].Get_District() == "BAŞAKŞEHİR" && xDocks[i].Get_Id() == "İKİTELLİ OSB")
-        //        {
-        //            Add_Main_Hub(i, "BAŞAKŞEHİR", "İKİTELLİ OSB", 2000000,96);
-        //        }
-        //        else if (xDocks[i].Get_District() == "ÇEKMEKÖY" && xDocks[i].Get_Id() == "Merkez")
-        //        {
-        //            Add_Main_Hub(i, "ÇEKMEKÖY", "Merkez", 2000000, 96);
-        //        }
-        //        else if (xDocks[i].Get_District() == "KEMALPAŞA" && xDocks[i].Get_Id() == "KIZILÜZÜM")
-        //        {
-        //            Add_Main_Hub(i, "KEMALPAŞA", "KIZILÜZÜM", 1000000,98);
-        //        }
-        //        else if(xDocks[i].Get_District() == "KAHRAMANKAZAN" && xDocks[i].Get_Id() == "Merkez")
-        //        {
-        //            Add_Main_Hub(i, "KAHRAMANKAZAN", "Merkez", 1000000, 175);
-        //        }else if (xDocks[i].Get_District() == "KAYAPINAR" && xDocks[i].Get_Id() == "Merkez")
-        //        {
-        //            Add_Main_Hub(i, "KAYAPINAR", "Merkez", 1000000, 100);
-        //        }else if(xDocks[i].Get_District() == "YAKUTİYE" && xDocks[i].Get_Id() == "Merkez")
-        //        {
-        //            Add_Main_Hub(i, "YAKUTİYE", "Merkez", 200000, 100);
-        //        }else if(xDocks[i].Get_District() == "MERZİFON" && xDocks[i].Get_Id() == "Merkez")
-        //        {
-        //            //Add_Main_Hub(i, "MERZİFON", "Merkez", 50000, 100);
-        //        }
-        //        else if (xDocks[i].Get_District() == "MURATPAŞA" && xDocks[i].Get_Id() == "Merkez")
-        //        {
-        //            Add_Main_Hub(i, "MURATPAŞA", "Merkez", 1000000, 175);
-        //        }
-        //        else if (xDocks[i].Get_District() == "NİLÜFER" && xDocks[i].Get_Id() == "Merkez")
-        //        {
-        //            Add_Main_Hub(i, "NİLÜFER", "Merkez", 1000000, 175);
-        //        }
-        //        else if (xDocks[i].Get_City() == "DENİZLİ" && xDocks[i].Get_District() == "MERKEZ")
-        //        {
-        //            Add_Main_Hub(i, "DENİZLİ", "Merkez", 1000000, 175);
-        //        }
-        //        else if ((xDocks[i].Get_District() == "AKÇAKOCA" && xDocks[i].Get_Id() == "Merkez"))
-        //        {
-        //            Add_Main_Hub(i, "AKÇAKOCA", "Merkez", 1000000, 175);
-        //        }
-        //        else if ((xDocks[i].Get_District() == "KARATAY" && xDocks[i].Get_Id() == "Merkez"))
-        //        {
-        //            Add_Main_Hub(i, "KARATAY", "Merkez", 1000000, 175);
-        //        }
-        //        else if (xDocks[i].Get_District() == "YILDIRIM" && xDocks[i].Get_Id() == "Merkez")
-        //        {
-        //           // Add_Main_Hub(i, "YILDIRIM", "Merkez", 1000000, 175);
-        //        }
-        //        //else if (xDocks[i].Get_District() == "ÇANKAYA" && xDocks[i].Get_Id() == "Merkez")
-        //        //{
-        //        //    Add_Main_Hub(i, "ÇANKAYA", "Merkez", 1000000, 175);
-        //        //}
-        //    }
-        //}
 
         private Tuple<List<Seller>,List<Seller>> Second_Phase()
         {
@@ -419,9 +322,9 @@ namespace FMLMDelivery.Classes
                 var json_xdocks = writer_xdocks.ToArray();
                 total_json_log.Add("Mahalle xDock Atamaları", json_xdocks);
 
-                string[] new_header_already_opened = { "İl", "İlçe", "Mahalle", "Bölge", "Enlem", "Boylam", "Açık xDock veya Acente", "Minimum Kapasite", "LM Hacim", "FM Hacim" };
+                string[] new_header_already_opened = { "İl", "İlçe", "Mahalle", "Bölge", "Enlem", "Boylam", "Açık xDock veya Acente", "Minimum Kapasite", "LM Hacim"};
                 String header_already_opened = String.Join(",", new_header_already_opened) + Environment.NewLine;
-                String csv_new = header_already_opened + String.Join(Environment.NewLine, new_xDocks.Select(d => $"{d.Get_City()},{d.Get_District()},{d.Get_Id()},{d.Get_Region()},{d.Get_Latitude()},{d.Get_Longitude()},{d.If_Already_Opened()},{d.Get_Min_Cap()},{d.Get_LM_Demand()},{d.Get_FM_Demand()}"));
+                String csv_new = header_already_opened + String.Join(Environment.NewLine, new_xDocks.Select(d => $"{d.Get_City()},{d.Get_District()},{d.Get_Id()},{d.Get_Region()},{d.Get_Latitude()},{d.Get_Longitude()},{d.If_Already_Opened()},{d.Get_Min_Cap()},{d.Get_LM_Demand()}"));
                 System.IO.File.WriteAllText(@"" + _output_files + "\\Kısmi Çalıştırma Dosyası.csv", csv_new, Encoding.UTF8);
                 string[] json_partial_run = csv_new.Split("\r\n");
                 total_json_log.Add("Kısmi Çalıştırma Dosyası", json_partial_run);
@@ -437,7 +340,7 @@ namespace FMLMDelivery.Classes
             else
             {   new_xDocks = partial_xdocks;
                 //Courier Assignment 
-                //Run_Courier_Problem(_courier_document);
+                if(_courier_document.Count!=0)Run_Courier_Problem(_courier_document);
                 //Seller-xDock Assignment
                 (assigned_prior_sellers, assigned_regular_sellers) = Second_Phase();
                 //xDock-Seller-Hub Assignment
@@ -463,19 +366,19 @@ namespace FMLMDelivery.Classes
                 total_json_log.Add("Atanmış Büyük Tedarikçiler", json_assigned_big_sellers);
 
 
-                string[] prior_small_seller = { "İsim", "ID", "Enlem", "Boylam", "Gönderi" };
-                String p_small = String.Join(",", prior_small_seller) + Environment.NewLine;
-                String csv3 = p_small + String.Join(Environment.NewLine, assigned_prior_sellers.Select(d => $"{d.Get_Name()},{d.Get_Id()},{d.Get_Latitude()},{d.Get_Longitude()},{d.Get_Demand()}"));
-                System.IO.File.WriteAllText(@"" + _output_files + "\\Atanmış Öncelikli Küçük Tedarikçiler.csv", csv3, Encoding.UTF8);
-                string[] json_prior_small_seller = csv3.Split("\r\n");
-                total_json_log.Add("Atanmış Öncelikli Küçük Tedarikçiler", json_prior_small_seller);
+                //string[] prior_small_seller = { "İsim", "ID", "Enlem", "Boylam", "Gönderi" };
+                //String p_small = String.Join(",", prior_small_seller) + Environment.NewLine;
+                //String csv3 = p_small + String.Join(Environment.NewLine, assigned_prior_sellers.Select(d => $"{d.Get_Name()},{d.Get_Id()},{d.Get_Latitude()},{d.Get_Longitude()},{d.Get_Demand()}"));
+                //System.IO.File.WriteAllText(@"" + _output_files + "\\Atanmış Öncelikli Küçük Tedarikçiler.csv", csv3, Encoding.UTF8);
+                //string[] json_prior_small_seller = csv3.Split("\r\n");
+                //total_json_log.Add("Atanmış Öncelikli Küçük Tedarikçiler", json_prior_small_seller);
 
-                string[] regular_small_seller = { "İsim", "ID", "Enlem", "Boylam", "Gönderi" };
-                String r_small = String.Join(",", regular_small_seller) + Environment.NewLine;
-                String csv4 = r_small + String.Join(Environment.NewLine, assigned_regular_sellers.Select(d => $"{d.Get_Name()},{d.Get_Id()},{d.Get_Latitude()},{d.Get_Longitude()},{d.Get_Demand()}"));
-                System.IO.File.WriteAllText(@"" + _output_files + "\\Atanmış Sıradan Küçük Tedarikçiler.csv", csv4, Encoding.UTF8);
-                string[] json_regular_small_seller = csv4.Split("\r\n");
-                total_json_log.Add("Atanmış Sıradan Küçük Tedarikçiler", json_regular_small_seller);
+                //string[] regular_small_seller = { "İsim", "ID", "Enlem", "Boylam", "Gönderi" };
+                //String r_small = String.Join(",", regular_small_seller) + Environment.NewLine;
+                //String csv4 = r_small + String.Join(Environment.NewLine, assigned_regular_sellers.Select(d => $"{d.Get_Name()},{d.Get_Id()},{d.Get_Latitude()},{d.Get_Longitude()},{d.Get_Demand()}"));
+                //System.IO.File.WriteAllText(@"" + _output_files + "\\Atanmış Sıradan Küçük Tedarikçiler.csv", csv4, Encoding.UTF8);
+                //string[] json_regular_small_seller = csv4.Split("\r\n");
+                //total_json_log.Add("Atanmış Sıradan Küçük Tedarikçiler", json_regular_small_seller);
             }
 
             string[] new_xdocks_headers_2 = { "İl", "İlçe", "Mahalle", "Enlem", "Boylam", "LM Talep", "FM Gönderi", "Açık xDock veya Acente" };
@@ -487,7 +390,7 @@ namespace FMLMDelivery.Classes
 
             var header_courier = "xDock İl,xDock İlçe,xDock Mahalle,xDock Enlem,xDock Boylam,Kurye Id,Atanan Mahalle,Mahalle İlçe,Mahalle Enlem,Mahalle Boylam,Mahalleye Götüreceği Paket,Tahmini Uzaklık,Kapasite Aşımı";
             var write_courier = new Csv_Writer(courier_writer, "Kurye Atamaları", header_courier, _output_files);
-            write_courier.Write_Records();
+            if (_courier_document.Count != 0) write_courier.Write_Records();
             var json_courier_assignments = courier_writer.ToArray();
             total_json_log.Add("Kurye Atamaları", json_courier_assignments);
 
@@ -520,75 +423,6 @@ namespace FMLMDelivery.Classes
 
             return gap;
         }
-        //Will be removed
-        //private List<Hub> Convert_to_Potential_Hubs(List<xDocks> new_XDocks)
-        //{
-        //    var potential_Hubs = new List<Hub>();
-        //    var city_demand_dictionary = new Dictionary<String, Double>();
-        //    var disabled = new List<String> { "ŞIRNAK", "SİİRT", "HAKKARİ", "KİLİS","KAHRAMANMARAŞ" };
-        //    for (int i = 0; i < new_xDocks.Count; i++)
-        //    {
-        //        if (!city_demand_dictionary.ContainsKey(new_xDocks[i].Get_City()))
-        //        {
-        //            city_demand_dictionary.Add(new_xDocks[i].Get_City(), new_xDocks[i].Get_LM_Demand());
-        //        }
-        //        else
-        //        {
-        //            var old_demand = city_demand_dictionary[new_xDocks[i].Get_City()];
-        //            var new_demand = new_xDocks[i].Get_LM_Demand();
-        //            city_demand_dictionary[new_XDocks[i].Get_City()] = old_demand + new_demand;
-        //        }
-        //    }
-
-        //    for (int i = 0; i < new_XDocks.Count; i++)
-        //    {
-        //        if (!disabled.Contains(new_XDocks[i].Get_City()))
-        //        {
-        //            var city = new_XDocks[i].Get_City();
-        //            var district = new_XDocks[i].Get_District();
-        //            var id = new_XDocks[i].Get_Id();
-        //            var region = new_XDocks[i].Get_Region();
-        //            var longitude = new_XDocks[i].Get_Longitude();
-        //            var latitude = new_XDocks[i].Get_Latitude();
-        //            //var dist_thres = new_XDocks[i].Get_Distance_Threshold();
-        //            var hub_point = new_XDocks[i].Get_Hub_Point();
-        //            var capacity = 2000000;
-        //            //if (city_demand_dictionary[new_xDocks[i].Get_City()] <=60000) capacity = 100000;
-        //            var chute_cap = max_chute_capacity;
-        //            var already_opened = false;
-        //            var potential_hub = new Hub(city, district, id, region, longitude, latitude,0, hub_point, capacity, chute_cap,already_opened);
-        //            potential_Hubs.Add(potential_hub);
-        //        }
-        //    }
-
-        //    return potential_Hubs;
-        //}
-        //Will be removed
-        //private List<Hub> Add_Istanbul_Locations(List<xDocks> total_pot_xdocks)
-        //{
-        //    var potential_Hubs = new List<Hub>();
-        //    for (int i = 0; i < total_pot_xdocks.Count; i++)
-        //    {
-        //        if (total_pot_xdocks[i].Get_City()=="İSTANBUL AVRUPA" || total_pot_xdocks[i].Get_City() == "İSTANBUL ASYA")
-        //        {
-        //            var city = total_pot_xdocks[i].Get_City();
-        //            var district = total_pot_xdocks[i].Get_District();
-        //            var id = total_pot_xdocks[i].Get_Id();
-        //            var region = total_pot_xdocks[i].Get_Region();
-        //            var longitude = total_pot_xdocks[i].Get_Longitude();
-        //            var latitude = total_pot_xdocks[i].Get_Latitude();
-        //            //var dist_thres = total_pot_xdocks[i].Get_Distance_Threshold();
-        //            var hub_point = total_pot_xdocks[i].Get_Hub_Point();
-        //            var capacity = 2000000;
-        //            var chute_cap = max_chute_capacity;
-        //            var already_opened = false;
-        //            var potential_hub = new Hub(city, district, id, region, longitude, latitude,0, hub_point, capacity, chute_cap, already_opened);
-        //            potential_Hubs.Add(potential_hub);
-        //        }
-        //    }
-
-        //    return potential_Hubs;
-        //}
         private void Create_Output_Log_Json(Dictionary<String,String[]> json_files)
         {
             var runtime = DateTime.Now.ToString(" dd MMMM HH;mm;ss ");
@@ -629,13 +463,6 @@ namespace FMLMDelivery.Classes
             }
             
         }
-        //private void Modify_xDocks(List<xDocks> new_xDocks)
-        //{
-        //    for (int i = 0; i < agency.Count; i++)
-        //    {
-        //        new_xDocks.Add(agency[i]);
-        //    }
-        //}
     }
 }
  

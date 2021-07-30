@@ -33,6 +33,10 @@ namespace FMLMDelivery.Classes
         /// <summary>
         /// 
         /// </summary>
+        private List<Hub> _Hub = new List<Hub>();
+        /// <summary>
+        /// 
+        /// </summary>
         private List<xDocks> _partial_xdocks = new List<xDocks>();
         /// <summary>
         /// 
@@ -169,54 +173,35 @@ namespace FMLMDelivery.Classes
         private void Create_Demand_List(int month)
         {
             string[] demand_list;
-            if(total_json_input.ContainsKey("Demand Points"))
+            if(total_json_input.ContainsKey("Demand/xDock File"))
             {
-                demand_list = total_json_input["Demand Points"];
+                demand_list = total_json_input["Demand/xDock File"];
                 demand_list = demand_list.Skip(1).ToArray();
 ;                foreach (var item in demand_list)
                  {
-                    var line = item.Split(",");
-
-                    var demand_point_City = line[0];
-                    var demand_point_district = line[1];
-                    var demand_point_ID = line[2];
-                    var demand_point_region = line[3];
-                    var demand_point_lat = Convert.ToDouble(line[4], System.Globalization.CultureInfo.InvariantCulture);
-                    var demand_point_long = Convert.ToDouble(line[5], System.Globalization.CultureInfo.InvariantCulture);
-                    var demand_point_dis_thres = Convert.ToDouble(line[6], System.Globalization.CultureInfo.InvariantCulture);
-                    if (demand_point_dis_thres == 0.0)
+                    var line = item.Split(',');
+                    var city = line[0];
+                    var district = line[1];
+                    var id = line[2];
+                    var region = line[3];
+                    var latitude = Convert.ToDouble(line[4], System.Globalization.CultureInfo.InvariantCulture);
+                    var longitude = Convert.ToDouble(line[5], System.Globalization.CultureInfo.InvariantCulture);
+                    var already_opened = Convert.ToDouble(line[6]);
+                    var already_opened_boolean = false;
+                    if (already_opened == 1) already_opened_boolean = true;
+                    var distance_threshold = Convert.ToDouble(line[7], System.Globalization.CultureInfo.InvariantCulture);
+                    var demand = Convert.ToDouble(line[8], System.Globalization.CultureInfo.InvariantCulture);
+                    var min_xdock_cap = Convert.ToDouble(line[9], System.Globalization.CultureInfo.InvariantCulture);
+                    var max_xdock_cap = Convert.ToDouble(line[10], System.Globalization.CultureInfo.InvariantCulture);
+                    if (demand > 5)
                     {
-                        demand_point_dis_thres = region_county_threshold[demand_point_region];
-                    }
-                    var demand_point_Demand = Convert.ToDouble(line[month+6]);
-                    if (demand_point_Demand != 0.0)
-                    {
-                        demand_point_Demand = Convert.ToDouble(line[month+6]) / Math.Ceiling(Convert.ToDouble(line[month+6]) / 4000);
-                    }
-                    if (demand_point_Demand > 10.0)
-                    {
-                        var demand_point = new DemandPoint(demand_point_City, demand_point_district, demand_point_ID, demand_point_region, demand_point_long, demand_point_lat, demand_point_dis_thres, demand_point_Demand);
+                        var demand_point = new DemandPoint(city, district, id, region, longitude, latitude, distance_threshold, demand);
                         _demand_point.Add(demand_point);
-
-                        if (Math.Ceiling(Convert.ToDouble(line[month + 6]) / 4000) > 1)
-                        {
-                            for (int i = 2; i <= Math.Ceiling(Convert.ToDouble(line[month + 6]) / 4000); i++)
-                            {
-                                var demand_point_City_ = line[0];
-                                var demand_point_district_ = line[1];
-                                var demand_point_ID_ = line[2] + " " + i;
-                                var demand_point_Region_ = line[3];
-                                var demand_point_long_ = Convert.ToDouble(line[4], System.Globalization.CultureInfo.InvariantCulture);
-                                var demand_point_lat_ = Convert.ToDouble(line[5], System.Globalization.CultureInfo.InvariantCulture);
-                                var demand_point_dis_thres_ = Convert.ToDouble(line[6], System.Globalization.CultureInfo.InvariantCulture);
-                                var demand_point_Demand_ = Convert.ToDouble(line[month + 6]) / Math.Ceiling(Convert.ToDouble(line[month + 6]) / 4000);
-                                if (demand_point_Demand_ > scope_out_threshold)
-                                {
-                                    var demand_point_ = new DemandPoint(demand_point_City_, demand_point_district_, demand_point_ID_, demand_point_Region_, demand_point_long_, demand_point_lat_, demand_point_dis_thres_, demand_point_Demand_);
-                                    _demand_point.Add(demand_point_);
-                                }
-                            }
-                        }
+                    }
+                    if (max_xdock_cap > scope_out_threshold)
+                    {
+                        var potential_xdock_point = new xDocks(city, district, id, region, longitude, latitude, min_xdock_cap, 1.5, max_xdock_cap, already_opened_boolean, false);
+                        _potential_xdocks.Add(potential_xdock_point);
                     }
                 }
             }
@@ -225,47 +210,30 @@ namespace FMLMDelivery.Classes
         private void Create_Potential_xDocks(int month)
         {
             string[] pot_xdocks;
-            if (total_json_input.ContainsKey("Potential_xDocks"))
+            if (total_json_input.ContainsKey("Hub Points File"))
             {
-                pot_xdocks = total_json_input["Potential_xDocks"];
+                pot_xdocks = total_json_input["Hub Points File"];
                 pot_xdocks = pot_xdocks.Skip(1).ToArray();
 
                 foreach (var item in pot_xdocks)
                 {
                     var line = item.Split(",");
-                    var xDock_City = line[0];
-                    var xDock_District = line[1];
-                    var xDock_Id = line[2];
-                    var xDock_region = line[3];
-                    var xDock_lat = Convert.ToDouble(line[4], System.Globalization.CultureInfo.InvariantCulture);
-                    var xDock_long = Convert.ToDouble(line[5], System.Globalization.CultureInfo.InvariantCulture);
-                    //var xDock_dist_threshold = Convert.ToDouble(line[7], System.Globalization.CultureInfo.InvariantCulture);
-                    var xDock_min_cap = Convert.ToDouble(line[8], System.Globalization.CultureInfo.InvariantCulture);
-                    var hub_point = Convert.ToDouble(line[9], System.Globalization.CultureInfo.InvariantCulture);
-                    if (hub_point == 0)
-                    {
-                        hub_point = 2;
-                    }
-                    else
-                    {
-                        var log_value = Math.Log(hub_point, 10);
-                        hub_point = (2 - log_value);
-                    }
-                    var Already_Opened = Convert.ToDouble(line[6]);
-                    var xDock_Already_Opened = false;
-                    if (Already_Opened == 1.0)
-                    {
-                        xDock_Already_Opened = true;
-                    }
-                    var xDock_Capacity = Convert.ToDouble(line[month + 9]);
+                    var city = line[0];
+                    var district = line[1];
+                    var id = line[2];
+                    var region = line[3];
+                    var latitude = Convert.ToDouble(line[4], System.Globalization.CultureInfo.InvariantCulture);
+                    var longitude = Convert.ToDouble(line[5], System.Globalization.CultureInfo.InvariantCulture);
+                    var already_opened = Convert.ToDouble(line[6], System.Globalization.CultureInfo.InvariantCulture);
+                    var already_opened_boolean = false;
+                    if (already_opened == 1) already_opened_boolean = true;
+                    var distance_threshold = Convert.ToDouble(line[7], System.Globalization.CultureInfo.InvariantCulture);
+                    var max_hub_cap = Convert.ToDouble(line[8], System.Globalization.CultureInfo.InvariantCulture);
+                    var eliminated_potential_point = 1.0;
+                    if (max_hub_cap == 0) eliminated_potential_point = 1.5;
 
-                    if (xDock_Capacity > scope_out_threshold)
-                    {
-                        var type_value = false;
-                        var xDock = new xDocks(xDock_City, xDock_District, xDock_Id, xDock_region, xDock_long, xDock_lat, xDock_min_cap,hub_point ,xDock_Capacity, xDock_Already_Opened, type_value);
-                        _potential_xdocks.Add(xDock);
-
-                    }
+                    var hub_info = new Hub(city, district, id, region, longitude, latitude, distance_threshold, eliminated_potential_point, max_hub_cap, 150, already_opened_boolean);
+                    _Hub.Add(hub_info);
                 }
             }
         }
@@ -307,12 +275,12 @@ namespace FMLMDelivery.Classes
                     var seller_id = line[1];
                     var seller_city = line[2];
                     var seller_district = line[3];
-                    var seller_priority = Convert.ToDouble(line[4], System.Globalization.CultureInfo.InvariantCulture);
-                    var seller_lat = Convert.ToDouble(line[5], System.Globalization.CultureInfo.InvariantCulture);
-                    var seller_long = Convert.ToDouble(line[6], System.Globalization.CultureInfo.InvariantCulture);
-                    var seller_demand = Convert.ToDouble(line[7], System.Globalization.CultureInfo.InvariantCulture);
-                    var seller_dist = Convert.ToDouble(line[8], System.Globalization.CultureInfo.InvariantCulture);
-                    var seller_size = line[9];
+                    var seller_priority = 1;
+                    var seller_lat = Convert.ToDouble(line[4], System.Globalization.CultureInfo.InvariantCulture);
+                    var seller_long = Convert.ToDouble(line[5], System.Globalization.CultureInfo.InvariantCulture);
+                    var seller_demand = Convert.ToDouble(line[6], System.Globalization.CultureInfo.InvariantCulture);
+                    var seller_dist = Convert.ToDouble(line[7], System.Globalization.CultureInfo.InvariantCulture);
+                    var seller_size = "Big";
                     if (seller_size == "Small")
                     {
                         var small_seller = new Seller(seller_name, seller_id, seller_city, seller_district, seller_priority, seller_long, seller_lat, seller_demand, seller_dist, seller_size);
@@ -362,9 +330,9 @@ namespace FMLMDelivery.Classes
                     var Already_Opened = Convert.ToBoolean(line[6], System.Globalization.CultureInfo.InvariantCulture);
                     //var xDock_dist_threshold = Convert.ToDouble(line[7], System.Globalization.CultureInfo.InvariantCulture);
                     var xDock_min_cap = Convert.ToDouble(line[7], System.Globalization.CultureInfo.InvariantCulture);
-                    var hub_point = Convert.ToDouble(line[8], System.Globalization.CultureInfo.InvariantCulture);
-                    var xdock_demand = Convert.ToDouble(line[9], System.Globalization.CultureInfo.InvariantCulture);
-                    var xDock = new xDocks(xDock_City, xDock_District, xDock_Id, xDock_region, xDock_long, xDock_lat, xDock_min_cap,hub_point,xdock_demand, Already_Opened, type_value);
+                    var hub_point = 1;
+                    var xdock_demand = Convert.ToDouble(line[8], System.Globalization.CultureInfo.InvariantCulture);
+                    var xDock = new xDocks(xDock_City, xDock_District, xDock_Id, xDock_region, xDock_long, xDock_lat, xDock_min_cap, hub_point, xdock_demand, Already_Opened, type_value);
                     _partial_xdocks.Add(xDock);
                 }
             }

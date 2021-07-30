@@ -269,7 +269,7 @@ namespace FMLMDelivery
         {
 
             _solver = new Cplex();
-            //_solver.SetParam(Cplex.DoubleParam.TiLim, val: _timeLimit);
+            //_solver.SetParam(Cplex.DoubleParam.TiLim, val: 100);
             _solver.SetParam(Cplex.DoubleParam.EpGap, _gap);
             _xDocks = xDocks;
             _hubs = hubs;
@@ -360,7 +360,7 @@ namespace FMLMDelivery
             _xdock_assignments = assignments[1];
             _seller_assignments = assignments[2];
         }
-
+        //Bakılır
         private void Eliminate_Hub_Points()
         {
             List<string> keyList = new List<string>(this._distance_matrix.Keys);
@@ -1207,7 +1207,7 @@ namespace FMLMDelivery
                     var demand_included_2 = _sellers[k].Get_Demand() * a_seller[k][j];
                     constraint.AddTerm(s[k][j], demand_included_2);
                 }
-                if (common_volume.ContainsKey(_hubs[j].Get_City())& _min_hub_model)
+                if (common_volume.ContainsKey(_hubs[j].Get_City()) & _min_hub_model)
                 {
                     var percentage = common_volume[_hubs[j].Get_City()];
                     //demand_included_2 = demand_included_2 * (100 - percentage) / 100;
@@ -1376,12 +1376,9 @@ namespace FMLMDelivery
                 else if (_min_hub_model)
                 {
                     _solver.AddLe(constraint, 1);
-                }
-                
-            }
-            
+                }                
+            }    
 
-           
         }
 
 
