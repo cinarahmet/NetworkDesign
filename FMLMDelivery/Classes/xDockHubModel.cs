@@ -164,12 +164,12 @@ namespace FMLMDelivery
         /// <summary>
         /// Time limit is given in seconds.
         /// </summary>
-        private readonly long _timeLimit = 36000;
+        private readonly long _timeLimit = 3600*8;
 
         /// <summary>
         /// Gap limit is given in percentage
         /// </summary>
-        private readonly double _gap = 0.01;
+        private readonly double _gap = 0.015;
 
         /// <summary>u
         /// if cost is incurred
@@ -269,7 +269,7 @@ namespace FMLMDelivery
         {
 
             _solver = new Cplex();
-            //_solver.SetParam(Cplex.DoubleParam.TiLim, val: 100);
+            _solver.SetParam(Cplex.DoubleParam.TiLim, val: _timeLimit);
             _solver.SetParam(Cplex.DoubleParam.EpGap, _gap);
             _xDocks = xDocks;
             _hubs = hubs;
@@ -961,12 +961,12 @@ namespace FMLMDelivery
 
         private void Create_Common_Volume_Dictionary()
         {
-            common_volume.Add("İSTANBUL ASYA", 4);
-            common_volume.Add("İSTANBUL AVRUPA", 4);
-            common_volume.Add("İZMİR", 12);
-            common_volume.Add("ANKARA", 12);
-            common_volume.Add("BURSA", 8);
-            common_volume.Add("ADANA", 8);
+            common_volume.Add("İSTANBUL ASYA", 0);
+            common_volume.Add("İSTANBUL AVRUPA", 0);
+            common_volume.Add("İZMİR", 0);
+            common_volume.Add("ANKARA", 0);
+            common_volume.Add("BURSA", 0);
+            common_volume.Add("ADANA", 0);
         }
 
         private void Solve()

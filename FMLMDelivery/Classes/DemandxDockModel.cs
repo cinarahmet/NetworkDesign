@@ -129,7 +129,7 @@ public class DemandxDockModel
     /// <summary>
     /// Time limit is given in seconds.
     /// </summary>
-    private readonly long _timeLimit =60;
+    private readonly long _timeLimit =3600*5;
     /// <summary>
     /// The starting time of the model
     /// </summary>
@@ -248,7 +248,7 @@ public class DemandxDockModel
 	{
         _gap = Gap;
         _solver = new Cplex();
-        _timeLimit = Timelimit;
+        //_timeLimit = Timelimit;
         _solver.SetParam(Cplex.DoubleParam.TiLim, val: _timeLimit);
         _solver.SetParam(Cplex.DoubleParam.EpGap, _gap);
         _xDocks = xDocks;
